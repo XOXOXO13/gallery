@@ -1,0 +1,49 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String  @id @default(uuid())
+  nickname String
+  password String?
+}
+
+model Style {
+  id          String   @id @default(uuid())
+  nickname    String
+  title       String
+  description String
+  images      String?
+  views       Int      @default(0)
+  curation    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tags String[] @default([])
+  imageUrl String[] @default([])
+}
+
+model Item {
+  id       Int    @id @default(autoincrement())
+  styleId  Int
+  category String
+  brand    String
+  price    Int?
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  nickname String @unique
+}
+
+model Curation {
+  id        String   @id @default(uuid())
+  styleId   Int
+  userId    Int
+  createdAt DateTime @default(now())
+  upadedAt  DateTime @updatedAt
+}
